@@ -1,0 +1,220 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block meta %}
+<meta property="og:title" content="{{ object.title }} - Noutbuklar olami - Laptop Center">
+</meta>
+<meta property="og:site_name" content="laptop-center.uz">
+<meta property="og:url" content="{{ request.get_host }}{{ request.path }}">
+<meta property="og:description"
+  content="{{ object.description }}">
+<meta property="og:type" content="article">
+<meta property="og:image" content="{{ request.get_host }}{{ object.poster.url }}">
+{% endblock meta %}
+  
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<link rel="stylesheet" href="{% static 'css/slider.min.css' %}">
+<style>
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .swiper {
+    width: 100%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .mySwiper2 {
+    height: 80%;
+    width: 100%;
+  }
+
+  .mySwiper {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+
+  .mySwiper .swiper-wrapper {
+    height: 100px;
+    object-fit: contain;
+  }
+  .mySwiper .swiper-slide {
+    width: 33%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .mySwiper .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+{% endblock style %}
+
+{% block content %}
+<main>
+  <section class="about-box">
+    <div class="container">
+      <div class="about">
+        <div class="about-galery">
+
+          <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+            <div class="swiper-wrapper">
+              {% for product_image in object.product_images.all %}
+              <div class="swiper-slide">
+                <img onclick="window.open(this.src)" style="width: 100%;height: 400px;object-fit: cover;cursor: pointer" src="{{ product_image.image.url }}" />
+              </div>
+              {% endfor %}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+          <div thumbsSlider="" class="swiper mySwiper">
+            <div class="swiper-wrapper">
+              {% for product_image in object.product_images.all %}
+              <div class="swiper-slide">
+                <img src="{{ product_image.image.url }}" />
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="about-content">
+          <h1 class="about-content__title">{{ object.title }}</h1>
+          {% if object.is_discount %}
+          <p class="about-content__price">
+            Narx:
+            <br>
+            <b>${{ object.cost }}</b>
+          </p>
+          <hr>
+          <p class="about-content__discount">
+            Chegirma: <span>{{ object.discount_percent }}%</span>
+            <br>
+            <b>${{ object.get_cost }}</b>
+          </p>
+          {% else %}
+          <p class="about-content__price">
+            Narx:
+            <br>
+            <b>${{ object.get_cost }}</b>
+          </p>
+          {% endif %}
+          <h2 class="about-content__delivery">Tez va sifatli yetkazib berish</h2>
+          <ul class="about-content__list">
+            <li class="about-content-list__item">Tez yetkazib berish</li>
+            <li class="about-content-list__item">Uyingizgacha yetkazib berish</li>
+            <li class="about-content-list__item">Taxminiy yetkazish muddati</li>
+            <li class="about-content-list__item">10 kun ichida mahsulotni qaytarish</li>
+          </ul>
+
+          <div class="amount">
+            <h3 class="amount__title">Miqdori:</h3>
+            <div class="amount-btns">
+              <button class="add-btn"><img src="{% static 'images/add-circle.png' %}" alt=""></button>
+              <span class="amount-result">1</span>
+              <button class="minus-btn"><img src="{% static 'images/minus-cirlce.png' %}" alt=""></button>
+            </div>
+          </div>
+          <div class="about-content__btns">
+            <button>
+              <a class="changeHref" style="color: #fff" href="/cart/checkout/1/">Sotib olish</a>
+            </button>
+            <button count="1" id="AddCart" onclick="addToCart('{{ object.id }}', parseInt(this.attributes['count'].nodeValue))">Savatchaga olish</button>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <br>
+      <h2 class="about-product__title">Mahsulot haqida:</h2>
+      <p class="about-product__info">{{ object.description|safe }}</p>
+
+      <h2 class="similar-product__title">O‘xshash mahsulotlar:</h2>
+      <ul class="similar-product__list discounts-list">
+        {% for product in products %}
+        <li class="discounts-list__item">
+          <a href="{{ product.get_absolute_url }}">
+            <img style="max-height: 300px;object-fit: cover" class="discounts-list__img" src="{{ product.poster.url }}" alt="{{ product.title }}">
+            <h3 class="discounts-list__title">{{ product.title }}</h3>
+            <div class="discounts-list__price">${{ product.get_cost }}</div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+</main>
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/slider.min.js' %}"></script>
+<script src="{% static 'js/about.js' %}"></script>
+<script>
+  var swiper1 = new Swiper(".mySwiper", {
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesProgress: true,
+  });
+  var swiper2 = new Swiper(".mySwiper2", {
+    spaceBetween: 10,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    thumbs: {
+      swiper: swiper1,
+    },
+  });
+  document.querySelector('.changeHref').attributes['href'].nodeValue += document.querySelector('.amount-result').innerHTML
+</script>
+{% endblock %}

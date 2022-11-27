@@ -1,0 +1,176 @@
+{% extends 'master/base.html' %}
+
+
+{% block title %}Dashboard{% endblock title %}
+    
+
+<div class="content-body">
+
+    {% block content %}
+    <div class="card-block">
+
+        <div class="card">
+            <a>
+                <div class="card-icon w-auto">
+                    <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M19.3125 27.125C20.5206 27.125 21.5 26.1456 21.5 24.9375C21.5 23.7294 20.5206 22.75 19.3125 22.75C18.1044 22.75 17.125 23.7294 17.125 24.9375C17.125 26.1456 18.1044 27.125 19.3125 27.125Z"
+                            fill="white" />
+                        <path
+                            d="M9.3125 27.125C10.5206 27.125 11.5 26.1456 11.5 24.9375C11.5 23.7294 10.5206 22.75 9.3125 22.75C8.10438 22.75 7.125 23.7294 7.125 24.9375C7.125 26.1456 8.10438 27.125 9.3125 27.125Z"
+                            fill="white" />
+                        <path
+                            d="M5.05 3.925L4.8 6.9875C4.75 7.575 5.2125 8.0625 5.8 8.0625H24.9375C25.4625 8.0625 25.9 7.6625 25.9375 7.1375C26.1 4.925 24.4125 3.125 22.2 3.125H6.8375C6.7125 2.575 6.4625 2.05 6.075 1.6125C5.45 0.95 4.575 0.5625 3.675 0.5625H1.5C0.9875 0.5625 0.5625 0.9875 0.5625 1.5C0.5625 2.0125 0.9875 2.4375 1.5 2.4375H3.675C4.0625 2.4375 4.425 2.6 4.6875 2.875C4.95 3.1625 5.075 3.5375 5.05 3.925Z"
+                            fill="white" />
+                        <path
+                            d="M24.6374 9.9375H5.46244C4.93744 9.9375 4.51244 10.3375 4.46244 10.85L4.01244 16.2875C3.83744 18.425 5.51244 20.25 7.64994 20.25H21.5499C23.4249 20.25 25.0749 18.7125 25.2124 16.8375L25.6249 11C25.6749 10.425 25.2249 9.9375 24.6374 9.9375Z"
+                            fill="white" />
+                    </svg>
+                </div>
+                <div class="card-status w-auto">
+                    <span>Tovarlar</span>
+                    <p>{{ count_product }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a>
+                <div class="card-icon w-auto">
+                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M7.05 0.5H4.675C1.9375 0.5 0.5 1.9375 0.5 4.6625V7.0375C0.5 9.7625 1.9375 11.2 4.6625 11.2H7.0375C9.7625 11.2 11.2 9.7625 11.2 7.0375V4.6625C11.2125 1.9375 9.775 0.5 7.05 0.5Z"
+                            fill="white" />
+                        <path
+                            d="M21.3375 0.5H18.9625C16.2375 0.5 14.8 1.9375 14.8 4.6625V7.0375C14.8 9.7625 16.2375 11.2 18.9625 11.2H21.3375C24.0625 11.2 25.5 9.7625 25.5 7.0375V4.6625C25.5 1.9375 24.0625 0.5 21.3375 0.5Z"
+                            fill="white" />
+                        <path
+                            d="M21.3375 14.7875H18.9625C16.2375 14.7875 14.8 16.225 14.8 18.95V21.325C14.8 24.05 16.2375 25.4875 18.9625 25.4875H21.3375C24.0625 25.4875 25.5 24.05 25.5 21.325V18.95C25.5 16.225 24.0625 14.7875 21.3375 14.7875Z"
+                            fill="white" />
+                        <path
+                            d="M7.05 14.7875H4.675C1.9375 14.7875 0.5 16.225 0.5 18.95V21.325C0.5 24.0625 1.9375 25.5 4.6625 25.5H7.0375C9.7625 25.5 11.2 24.0625 11.2 21.3375V18.9625C11.2125 16.225 9.775 14.7875 7.05 14.7875Z"
+                            fill="white" />
+                    </svg>
+                </div>
+                <div class="card-status w-auto">
+                    <span>Kategoriyalar</span>
+                    <p>{{ count_category }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a>
+                <div class="card-icon w-auto">
+                    <svg viewBox="0 0 512 512">
+                        <path
+                            d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM199.4 312.6c31.2 31.2 81.9 31.2 113.1 0c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9c-50 50-131 50-181 0s-50-131 0-181s131-50 181 0c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0c-31.2-31.2-81.9-31.2-113.1 0s-31.2 81.9 0 113.1z" />
+                    </svg>
+                </div>
+                <div class="card-status w-auto">
+                    <span>Brendlar</span>
+                    <p>{{ count_brand }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a>
+                <div class="card-icon w-auto">
+                    <svg viewBox="0 0 512 512">
+                        <path
+                            d="M24 56c0-13.3 10.7-24 24-24H80c13.3 0 24 10.7 24 24V176h16c13.3 0 24 10.7 24 24s-10.7 24-24 24H40c-13.3 0-24-10.7-24-24s10.7-24 24-24H56V80H48C34.7 80 24 69.3 24 56zM86.7 341.2c-6.5-7.4-18.3-6.9-24 1.2L51.5 357.9c-7.7 10.8-22.7 13.3-33.5 5.6s-13.3-22.7-5.6-33.5l11.1-15.6c23.7-33.2 72.3-35.6 99.2-4.9c21.3 24.4 20.8 60.9-1.1 84.7L86.8 432H120c13.3 0 24 10.7 24 24s-10.7 24-24 24H32c-9.5 0-18.2-5.6-22-14.4s-2.1-18.9 4.3-25.9l72-78c5.3-5.8 5.4-14.6 .3-20.5zM224 64H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+                    </svg>
+                </div>
+                <div class="card-status w-auto">
+                    <span>Buyurtmalar</span>
+                    <p>{{ orders.count }}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+        <div class="contetn-body-head">
+            <div class="contetn-body-title w-auto">
+                <p>
+                    <b>Barcha buyurtmalar</b>
+                </p>
+                <form class="input-field" method="get">
+                    <select onchange="this.parentElement.submit()" name="status" id="id_status">
+                        <option value="">--------</option>
+                        <option value="Yetkazib berildi">Yetkazib berildi</option>
+                        <option value="Korib chiqilyapti">Korib chiqilyapti</option>
+                        <option value="Korilmadi">Korilmadi</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        {% if orders %}
+        <div class="table-group">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Savatcha</th>
+                        <th>To'liq ism</th>
+                        <th>Telefo'n</th>
+                        <th>Viloyat</th>
+                        <th>Shahar</th>
+                        <th>Manzil</th>
+                        <th>Zip ko'd</th>
+                        <th>Buyurtma berilgan vaqt</th>
+                        <th>Jami Soni</th>
+                        <th>Jami Narxi</th>
+                        <th>Holat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>
+                            <p>{{ order.id }}</p>
+                        </td>
+                        <td>
+                            <a href="{% url 'master:order-cart' order.cart.id %}">{{ order.cart.id }}</a>
+                        </td>
+                        <td>
+                            <p>{{ order.full_name }}</p>
+                        </td>
+                        <td>
+                            <a>{{ order.phone }}</a>
+                        </td>
+                        <td>
+                            <p>{{ order.province }}</p>
+                        </td>
+                        <td>
+                            <p>{{ order.city }}</p>
+                        </td>
+                        <td>
+                            <p>{{ order.address }}</p>
+                        </td>
+                        <td>
+                            <p>{{ order.zipcode }}</p>
+                        </td>
+                        <td>
+                            <p>{{ order.created_at|date:"Y M d - h:m:s" }}</p>
+                        </td>
+                        <td>
+                            <p>{{ order.cart.total_quantity }}</p>
+                        </td>
+                        <td>
+                            <p>$ {{ order.cart.total_cost }}</p>
+                        </td>
+                        <td>
+                            <a href="{% url 'master:order-update' order.id %}">
+                                <button class="order-status processing">{{ order.status }}</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <center>
+            <h1>Buyurtmalar topilmadi !</h1>
+        </center>
+    {% endif %}
+    {% endblock content %}
+
+</div>

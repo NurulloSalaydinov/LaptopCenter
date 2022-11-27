@@ -1,0 +1,224 @@
+{% extends 'wrapper.html' %}
+
+{% load static %}
+{% load get_request_list %}
+
+{% block meta %}
+<meta property="og:title" content="Noutbuklar olami - Laptop Center"></meta>
+<meta property="og:site_name" content="laptop-center.uz">
+<meta property="og:url" content="https://laptop-center.uz">
+<meta property="og:description" content="laptop-center.uz bu eng yaxshi noutbuklar va aksessuarlar ni sotuvchi brend, eng sifatli va arzon narxlarda.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://laptop-center.uz/static/images/logo.svg">
+{% endblock meta %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block title %}Do'kon - {{ category.title }}{% endblock %}
+
+{% block content %}
+  <main id="main">
+    <section>
+      <div class="container">
+        <div class="product-hero">
+          <div class="tabs-box">
+            <form method="get">
+              <div class="close-btn">
+                <span></span>
+                <span></span>
+              </div>
+              <div class="categorys-box">
+                <h2 class="categorys__title">Kategoriyalar <img src="{% static 'images/top-arrow.svg' %}" alt="arrow"></h2>
+                <ul class="categorys__list">
+                  {% for category in categories %}
+                  <li class="categorys-list__item">
+                    <a class="add_options_category" href="{{ category.get_absolute_url }}">
+                      {{ category.title }}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <div class="manufacturers-box">
+                <h2 class="manufacturers__title">Ishlab chiqaruvchi <img src="{% static 'images/top-arrow.svg' %}" alt="arrow"></h2>
+                <div class="manufacturers__list">
+                  {% for brand in brands %}
+                  <div>
+                    <label for="id_{{ brand.id }}">
+                      {% if brand.slug in request.GET|get_item:"brands" %}
+                      <input checked name="brands" type="checkbox" value="{{ brand.slug }}" id="id_{{ brand.id }}">
+                      {% else %}
+                      <input name="brands" type="checkbox" value="{{ brand.slug }}" id="id_{{ brand.id }}">
+                      {% endif %}
+                      {{ brand.title }}
+                    </label>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              
+              <div class="price-box">
+                <h2 class="price__title">Narxi <img src="{% static 'images/top-arrow.svg' %}" alt="arrow"></h2>
+                <div class="price__list">
+                  <label for="min_price">
+                    <p>
+                      Minimum narx
+                    </p>
+                    <input min="1" type="number" name="minPrice" id="min_price" value="10">
+                  </label>
+                  <label for="max_price">
+                    <p>
+                      Maksimum narx
+                    </p>
+                    <input min="1" type="number" name="maxPrice" value="100000" id="max_price">
+                  </label>
+                </div>
+              </div>
+              
+              <div class="colors-box">
+                <h2 class="colors__title">Ranggi <img src="{% static 'images/top-arrow.svg' %}" alt="arrow"></h2>
+                <ul class="colors__list">
+                  {% for color in colors %}
+                  <label for="id_color_{{ color.id }}" style="background-color: {{ color.english_name }};box-shadow: 0 0 15px -5px rgba(0,0,0,0.5)" class="colors-list__item">
+                    {% if color.id|stringformat:"i" in request.GET|get_item:"colors" %}
+                    <input checked type="checkbox" name="colors" style="display: none" id="id_color_{{ color.id }}" value="{{ color.id }}">
+                    {% else %}
+                    <input type="checkbox" name="colors" style="display: none" id="id_color_{{ color.id }}" value="{{ color.id }}">
+                    {% endif %}
+                    <div class="checkable">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+                          <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                          <path fill="#51f551"
+                            d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </div>
+                  </label>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <button type="submit" class="restart-btn block">Saralash</button>
+              <br>
+              <a href="{% url 'common:shop-products' %}" class="restart-btn" style="background: red">Tozalash</a>
+            </form>
+          </div>
+          {% if products %}
+          <div class="products-box" style="width: 100%;">
+            <div class="products-title__box">
+              <h2 class="products-box__title">Do'kon {{ category.title }}</h2>
+              <a class="products-box__btn" href="#">
+                <img src="{% static 'images/filter-btn.png' %}" alt="filter btn icon">
+              </a>
+            </div>
+            <div class="cards">
+              <form method="get" action="{% url 'common:search' %}" class="card">
+                <input type="text" name="q" style="width: 100%;height: 45px;border: none;border-radius: inherit;text-indent: 20px;" placeholder="Qidiruv...">
+              </form>
+              <div style="width: 100%;height: 10px;visibility: hidden"></div>
+              {% for product in products %}
+              <div class="card">
+                <div class="card-image">
+                  <a href="{{ product.get_absolute_url }}">
+                    <img class="card__img" height="300px" src="{{ product.poster.url }}" alt="{{ product.poster.title }}">
+                  </a>
+                </div>
+                <div class="card__content">
+                  <h1>
+                    <a href="{{ product.get_absolute_url }}" class="content__title">{{ product.title }}</a>
+                  </h1>
+                  <div class="content__price">
+                    {% if product.is_discount %}
+                    <span>${{ product.get_cost }}</span>
+                    <span>${{ product.cost }}</span>
+                    {% else %}
+                    <span>${{ product.cost }}</span>
+                    {% endif %}
+                  </div>
+                  <p class="content__comment">{{ product.description|slice:"180" }}...</p>
+                  <div class="content-btns">
+                    <a href="{% url 'cart:single-checkout' product.id 1 %}" class="content__btn block">Sotib olish</a>
+                    <button onclick="addToCart('{{ product.id }}', 1)" class="content__shop-btn"><img src="{% static 'images/shopping-cart.svg' %}" alt=""></button>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="pagination">
+              <ul>
+                {% for num in products.paginator.page_range|slice:":5" %}
+                {% if num == products.number %}
+                <li>
+                  <a class="pagination-link is-current" href="#" aria-label="Page 1" aria-current="page">{{ num }}</a>
+                </li>
+                {% else %}
+                <li>
+                  <a class="pagination-link add_options" href="?page={{ num }}" aria-label="Page 1" aria-current="page">{{ num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if products.paginator.num_pages > 5 %}
+                <li>
+                  <a href="?page={{ products.paginator.num_pages }}" class="pagination-link add_options" aria-current="page">...
+                    {{ products.paginator.num_pages }}</a>
+                </li>
+                {% endif %}
+              </ul>
+              <div>
+                {% if products.has_previous %}
+                <a style="text-decoration: none;border: 2px solid #333;padding: 10px;font-size: 19px;font-weight: 500;margin-right: 20px;color: #000;border-radius: 5px"
+                  href="?page={{ products.previous_page_number }}" class="add_options">Oldingi sahifa</a>
+                {% endif %}
+                
+                {% if products.has_next %}
+                <a style="text-decoration: none;border: 2px solid #333;padding: 10px;font-size: 19px;font-weight: 500;color: #000;border-radius: 5px"
+                  href="?page={{ products.next_page_number }}" class="add_options">Keyingi sahifa</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="products-box">
+            <form method="get" action="{% url 'common:search' %}" class="card">
+              <input type="text" name="q" style="width: 100%;height: 45px;border: none;border-radius: inherit;text-indent: 20px;"
+                placeholder="Qidiruv...">
+            </form>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+            <h1>Hech narsa topilmadi :(</h1>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% endblock %}
+  {% block script %}
+  <script src="{% static 'js/products.js' %}"></script>
+  <script>
+    var search = window.location.search
+    search = search.replace('?page=', '')
+    s = ''
+    for (let i = 0; i < search.length; i++) {
+      r = search[i]
+      if (r == 'b') {
+        break
+      } else if (r == 'c') {
+        break
+      }
+      else if (r == 'm') {
+        break
+      }
+      else {
+        s += r
+      }
+    }
+    search = search.replace(s, '')
+    extra = '&' + search
+    category_extra = '?' + search
+    document.querySelectorAll('.add_options').forEach(item => { item.attributes['href'].nodeValue += extra})
+    document.querySelectorAll('.add_options_category').forEach(item => { item.attributes['href'].nodeValue += category_extra })
+  </script>
+  {% endblock %}

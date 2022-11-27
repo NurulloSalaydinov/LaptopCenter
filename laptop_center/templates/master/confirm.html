@@ -1,0 +1,38 @@
+{% extends 'master/base.html' %}
+
+{% block title %}{{ o }} | Tasdiqlash{% endblock %}
+
+{% block content %}
+
+<div class="curtain fxd full curtain-activate">
+    <div class="form-block full">
+        <div class="form-group">
+            <div class="form-head">
+                <div class="form-title w-auto">
+                    <p>
+                        <b>{{ o }}</b>
+                    </p>
+                </div>
+                <div class="form-close w-auto">
+                    <a href="{{ u }}">
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path
+                                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="form-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h2>Siz rostan ham "{{ object }}" ni o'chirmoqchimisiz</h2>
+                    <div class="input-field">
+                        <input type="submit" value="O'chirmoq">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </d>
+
+    {% endblock %}

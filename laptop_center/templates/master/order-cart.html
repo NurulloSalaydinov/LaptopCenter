@@ -1,0 +1,44 @@
+{% extends 'master/base.html' %}
+
+{% block title %}Buyurtma savatchasi{% endblock title %}
+
+{% block content %}
+{% for product in cart.products.all %}
+<div class="messages">
+    <div class="message-block">
+        <div class="message-head">
+            <p>
+                <b>Tovar ID : {{ product.product.id }}</b>
+            </p>
+        </div>
+        <div class="message-body">
+            <p>
+                <a href="{{ product.product.get_absolute_url }}">
+                    <strong>Tovar:</strong> {{ product.product.title }}
+                </a>
+            </p>
+            <p>
+                <b>Tovar narxi</b>: ${{ product.product.get_cost }}
+            </p>
+            <p>
+                {% if product.product.is_discount %}
+                <b>Chegirmasi bor</b>
+                {% else %}
+                <b>Chegirmasi yo'q</b>
+                {% endif %}
+            </p>
+            <p>
+                <b>Soni</b>: {{ product.quantity }}
+            </p>
+            <p>
+                <b>Narxi</b>: ${{ product.cost }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<center>
+    <h1>Narxi ${{ cart.total_cost }}</h1>
+    <h1>Jami soni {{ cart.total_quantity }}</h1>
+</center>
+{% endblock %}

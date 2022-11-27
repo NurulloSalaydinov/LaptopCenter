@@ -1,0 +1,274 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+
+  {% block meta %}
+  <meta property="og:title" content="Noutbuklar olami - Laptop Center">
+  </meta>
+  <meta property="og:site_name" content="laptop-center.uz">
+  <meta property="og:url" content="https://laptop-center.uz">
+  <meta property="og:description"
+    content="laptop-center.uz bu eng yaxshi noutbuklar va aksessuarlar ni sotuvchi brend, eng sifatli va arzon narxlarda noutbuklar.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://laptop-center.uz/static/images/logo.svg">
+  {% endblock meta %}
+
+  {% block title %}Bosh Sahifa{% endblock %}
+
+  {% block content %}
+  <main>
+    <section class="hero">
+      <div class="swiper">
+
+        <div class="swiper-wrapper">
+          
+          {% for banner in banners %}
+          <div class="swiper-slide hero-slide" style="background-image: url({{ banner.image.url }})">
+            <h1 class="hero-slide__title">{{ banner.title }}</h1>
+            <p class="hero-slide__text">{{ banner.description }}</p>
+            <center>
+              <a href="{{ banner.category.get_absolute_url }}" class="hero-slide__btn block w-100">Barchasi</a>
+            </center>
+          </div>
+          {% endfor %}
+
+        </div>
+
+        <div class="swiper-pagination"></div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+      </div>
+    </section>
+
+    <section class="social-media">
+      <div class="container">
+        <div class="social-media-inner">
+          <div class="telegram-channel">
+            <h2 class="telegram-channel__title">
+              Barcha mahsulotlarni ko‘rish <br> uchun telegram kanalimizga o‘ting
+            </h2>
+            <br>
+            <br>
+            <a href="https://t.me/laptop_centr" class="block">
+              <button class="telegram-channel__btn">Telegram</button>
+            </a>
+          </div>
+
+          <div class="promotions">
+            <div class="promotions__start">
+              <button class="promotions__btn">Promotion of the month</button>
+              <h2 class="promotions__title">Oyning chegirmadagi noutbuklari</h2>
+            </div>
+
+            <div class="promotions__cards">
+              {% for product in discounted_products|slice:"2" %}
+              <div class="promotions__card">
+                <h3 class="promotions-card__title">СКИДКА</h3>
+                <p class="promotions-card__info">
+                  <a style="color: #000" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                </p>
+                <span class="promotions-card__sales">{{ product.discount_percent }}%</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="best-seller-box">
+      <div class="container">
+        <div class="best-seller">
+          <h2 class="best-seller__title">Eng ko‘p sotilganlar</h2>
+          <ul class="best-seller-list">
+            {% for purchased_product in most_purchased_products %}
+            <li class="best-seller-list__item">
+              <a href="{{ purchased_product.get_absolute_url }}">
+                <img style="height: 300px;object-fit: cover" class="best-seller-list__img" src="{{ purchased_product.poster.url }}" alt="{{ purchased_product.poster.title }}">
+                <h3 class="best-seller-list__title">{{ purchased_product.title }}</h3>
+                {% if purchased_product.is_discount %}
+                <div class="best-seller-list__price">
+                  ${{ purchased_product.get_cost }}
+                  <del>${{ purchased_product.cost }}</del>
+                </div>
+                {% else %}
+                <div class="best-seller-list__price">${{ purchased_product.cost }}</div>
+                {% endif %}
+
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+
+          <button class="best-seller__btn">Barchasi</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="discounts-box">
+      <div class="container">
+        <div class="discounts">
+          <h2 class="discounts__title">Chegirmadagilar</h2>
+          <ul class="discounts-list">
+            {% for product in discounted_products %}
+            <li class="discounts-list__item">
+              <a href="{{ product.get_absolute_url }}">
+                <img style="height: 300px;object-fit: cover" class="discounts-list__img" src="{{ product.poster.url }}" alt="{{ product.poster.title }}">
+                <h3 class="discounts-list__title">{{ product.title }}</h3>
+                <div class="best-seller-list__price">
+                  ${{ product.get_cost }}
+                  <del>${{ product.cost }}</del>
+                </div>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+
+          <button class="discounts__btn">Barchasi</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories-box">
+      <div class="container">
+        <div class="categories">
+          <h2 class="categories__title">Barcha kategoriyalar</h2>
+          <ul class="categories-list">
+            <li class="categories-list__item">
+              <h2 class="categories-list__title">
+                Naushnik, sichqoncha va klaviatura
+              </h2>
+              <a class="categories-list__link" href="{% url 'common:shop-category' 'laptop_accessories' %}">Barchasini ko'rish</a>
+            </li>
+            <li class="categories-list__item">
+              <h2 class="categories-list__title">
+                Akksessuarlar
+              </h2>
+              <a class="categories-list__link" href="{% url 'common:shop-category' 'accessories' %}">Barchasini ko'rish</a>
+            </li>
+            <li class="categories-list__item">
+              <h2 class="categories-list__title">
+                Noutbuklar
+              </h2>
+              <a class="categories-list__link" href="{% url 'common:shop-products' %}">Barchasini ko'rish</a>
+            </li>
+            <li class="categories-list__item">
+              <h2 class="categories-list__title">
+                Chegirmadagilar
+              </h2>
+              <a class="categories-list__link" href="{% url 'common:shop-discount-products' %}">Barchasini ko'rish</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-box" id="aboutus">
+      <div class="container">
+        <div class="about">
+          <h2 class="about__title">Biz haqimizda</h2>
+          <div class="about-cards-box">
+            <div class="about-comments-list">
+              <div class="about-comments__card">
+                <h3 class="about-comments-card__title">1800+ <br><span>sharhlar</span></h3>
+                <p class="about-comments-card__info">Consequat tincidunt commodo consectetur mauris non nibh.</p>
+              </div>
+              <div class="about-comments__card">
+                <h3 class="about-comments-card__title">4 <br><span>yil</span></h3>
+                <p class="about-comments-card__info">Consequat tincidunt commodo consectetur mauris non nibh.</p>
+              </div>
+              <div class="about-comments__card">
+                <h3 class="about-comments-card__title">Diler</h3>
+                <p class="about-comments-card__info">Consequat tincidunt commodo consectetur mauris non nibh.</p>
+              </div>
+            </div>
+
+            <div class="about-cards">
+              <div class="about-card">
+                <br>
+                <h1 style="text-align: right;margin-right: 15px">Noutbuklar</h1>
+                <button class="about-card__btn">Do'kon</button>
+              </div>
+              <div class="about-card">
+                <button class="about-card__btn">Do'kon</button>
+              </div>
+            </div>
+          </div>
+          <img style="object-fit: cover;" class="about-image" src="{% static 'images/about-section-img.png' %}" alt="img">
+        </div>
+      </div>
+    </section>
+
+    <section class="why-us-box">
+      <div class="container">
+        <div class="why-us">
+          <h2 class="why-us__title">Nega aynan biz ?</h2>
+          <ul class="why-us-list">
+            <li class="why-us-list__card">
+              <img class="why-us-card__img" src="{% static 'images/why-us-card1.png' %}" alt="icon">
+              <h3 class="why-us-card__title">Tez va sifatli yetkazib berish</h3>
+              <p class="why-us-card__info">O‘zbekiston bo‘ylab tez va sifatli yetkazib berish</p>
+            </li>
+            <li class="why-us-list__card">
+              <img class="why-us-card__img" src="{% static 'images/why-us-card2.png' %}" alt="icon">
+              <h3 class="why-us-card__title">Arzon narxlar</h3>
+              <p class="why-us-card__info">Barcha yirik dilerlar bizdan sotib oladi Bizda arzonroq yanada arzonroq
+                sotamiz</p>
+            </li>
+            <li class="why-us-list__card">
+              <img class="why-us-card__img" src="{% static 'images/why-us-card3.png' %}" alt="icon">
+              <h3 class="why-us-card__title">Kafolat</h3>
+              <p class="why-us-card__info">Biz mahsulotlar sifatiga kafolat beramiz</p>
+            </li>
+            <li class="why-us-list__card">
+              <img class="why-us-card__img" src="{% static 'images/why-us-card4.png' %}" alt="icon">
+              <h3 class="why-us-card__title">TRADE IN</h3>
+              <p class="why-us-card__info">Eskisini berib yangisini oling</p>
+            </li>
+            <li class="why-us-list__card">
+              <img class="why-us-card__img" src="{% static 'images/why-us-card5.png' %}" alt="icon">
+              <h3 class="why-us-card__title">Har qanday turdagi to‘lov</h3>
+              <p class="why-us-card__info">Naqd, va plastik karta:
+                Visa, MasterCard, Uzcard.</p>
+            </li>
+            <li class="why-us-list__card">
+              <img class="why-us-card__img" src="{% static 'images/why-us-card6.png' %}" alt="icon">
+              <h3 class="why-us-card__title">Mutaxassislar</h3>
+              <p class="why-us-card__info">Mutaxassislar tomonidan tekshirilga va sifatli mahsulotlar</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-box" id="contact">
+      <div class="container">
+        <div class="contact">
+          <h2 class="contact__title">Biz bilan bog‘lanish</h2>
+          <div class="form-maps-box">
+            <div class="contact-form-box">
+              <h3 class="contact-form__title">Aloqa</h3>
+              <form class="contact-form" action="{% url 'common:new-contact' %}" method="post" autocomplete="off">
+                <input class="user-name-input" type="text" name="name" placeholder="Ism" required>
+                <input class="user-lastname-input" type="text" name="surname" placeholder="Familiya" required>
+                <input class="user-tel-input" type="number" name="phone" placeholder="Tel" required>
+                <input class="user-email-input" type="email" name="email" placeholder="Email (shart emas)">
+                <input class="user-comment-input" type="text" name="message" placeholder="Mavzu:" required>
+                {% csrf_token %}
+                <button class="contact-form__btn">Xabar qoldirish</button>
+              </form>
+            </div>
+            <iframe class="gmap_iframe" src="https://maps.google.com/maps?width=1000&amp;height=500&amp;hl=en&amp;q=Andijan&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% endblock %}
+
+  {% block script %}
+  <script src="{% static 'js/slider.min.js' %}"></script>
+  <script src="{% static 'js/main-slider.js' %}"></script>
+  {% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'master/base.html' %}
+{% load static %}
+
+{% block title %}Mahsulotlar{% endblock title %}
+
+{% block content %}
+
+<div class="contetn-body-head">
+    <div class="contetn-body-title w-auto">
+        <p>
+            <b>Barcha tovarlar</b>
+        </p>
+    </div>
+    <form class="input-field" method="get">
+        <select onchange="this.parentElement.submit()" name="is_purchased" id="id_status">
+            <option style="display: none">--------</option>
+            <option value="True">Sotib olinganlar</option>
+            <option value="False">Sotib olinmaganlar</option>
+        </select>
+    </form>
+    <div class="contetn-body-action w-auto">
+        <a href="{% url 'master:create-product' %}">
+            <button>Tovar qo'shish</button>
+        </a>
+    </div>
+</div>
+<div class="table-group">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tovar ID</th>
+                <th>Nomi</th>
+                <th>Rasmi</th>
+                <th>Narxi</th>
+                <th>Kategoriyasi</th>
+                <th>Brendi</th>
+                <th>Holat</th>
+                <th>Ishlash</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>
+                    <p>{{ product.id }}</p>
+                </td>
+                <td>
+                    <a>{{ product.title }}</a>
+                </td>
+                <td>
+                    <a>
+                        <img style="width: 100px !important" src="{{ product.poster.url }}" alt="{{ product.title }}">
+                    </a>
+                </td>
+                <td>
+                    <p>{{ product.cost }}$</p>
+                </td>
+                <td>
+                    <a href="{{ product.category.get_absolute_url }}">{{ product.category.title }}</a>
+                </td>
+                <td>
+                    <p>
+                        {{ product.brand.title }}
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        {% if product.is_purchased %}
+                        Sotilib bolingan
+                        {% else %}
+                        Hali sotilmagan
+                        {% endif %}
+                    </p>
+                </td>
+                <td>
+                    <div class="action">
+                        <div>
+                            <a href="{% url 'master:delete-product' product.id %}">
+                                <img src="{% static 'images/delete.svg' %}">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{% url 'master:update-product' product.id %}">
+                                <img src="{% static 'images/edit.svg' %}">
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<div>
+    {% if page_obj.has_previous %}
+    <a style="text-decoration: none;border: 2px solid #333;padding: 10px;font-size: 19px;font-weight: 600;margin-right: 20px;"
+        href="?page={{ page_obj.previous_page_number }}">Oldingi sahifa</a>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <a style="text-decoration: none;border: 2px solid #333;padding: 10px;font-size: 19px;font-weight: 600;"
+        href="?page={{ page_obj.next_page_number }}">Keyingi sahifa</a>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+</div>
+{% endblock %}

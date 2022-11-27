@@ -1,0 +1,53 @@
+{% extends 'master/base.html' %}
+
+{% block title %}Xabarlar{% endblock title %}
+
+{% block content %}
+{% if messages %}
+<div class="contetn-body-head">
+    <div class="contetn-body-title w-auto">
+        <p>
+            <b>Barcha habarlar</b>
+        </p>
+    </div>
+</div>
+{% for message in messages %}
+<div class="messages">
+    <div class="message-block">
+        <div class="message-head">
+            <p>
+                <b>User ID : {{ message.id }}</b>
+            </p>
+        </div>
+        <div class="message-body">
+            <p>
+                <strong>{{ message.name }} {{ message.surname }}</strong>
+            </p>
+            <p>
+                <b>Telefon</b>: <a href="tel:+{{ message.phone }}">{{ message.phone }}</a>
+            </p>
+            <p>
+                <b>Email</b>: {{ message.email }}
+            </p>
+            <p>
+                <b>Xabar</b>: {{ message.message }}
+            </p>
+        </div>
+        <div class="message-footer">
+            <p>
+                <b>Vaqt: {{ message.created_at|date:"Y M d - h:m:s" }}</b>
+            </p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="contetn-body-head">
+    <div class="contetn-body-title w-auto">
+        <p>
+            <b>Habarlar topilmadi</b>
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

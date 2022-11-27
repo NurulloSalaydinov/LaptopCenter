@@ -1,0 +1,39 @@
+{% extends 'wrapper.html' %}
+
+{% block title %}Buryurtma tasdiqlandi !{% endblock title %}
+
+{% block style %}
+<style>
+    .confirm-wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+
+<div class="confirm-wrapper">
+    <br>
+    <br>
+    <h1>Sizning buyurtmangiz yuborildi tez orada siz bilan bog'lanishadi !</h1>
+    <h2>
+        Biz bilan bog'lanish:
+        <a href="tel:+998978550626">+998978550626</a>
+    </h2>
+    <br>
+    <h3>
+        <a href="{% url 'common:home' %}">Bosh sahifaga qaytish</a>
+    </h3>
+    <br>
+    <br>
+    <br>
+
+</div>
+
+
+{% endblock content %}
+
+

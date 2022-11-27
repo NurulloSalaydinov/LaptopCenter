@@ -1,0 +1,71 @@
+{% extends 'wrapper.html' %}
+{% load static %}
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock style %}
+{% block title %}Buyurtma berish{% endblock title %}
+
+{% block content %}
+  <main>
+    <section class="order-box">
+      <div class="container">
+        <div class="order">
+          <div class="order-galery" style="padding: 20px;">
+            <h2>Jami narx ${{ cart.total_cost }}</h2>
+            <h2>Jami soni {{ cart.total_quantity }}</h2>
+          </div>
+
+          <form class="order-form" method="post" autocomplete="off">
+            <div class="label-input-box">
+              {% csrf_token %}
+              <label class="region-label" for="region">Viloyatni tanlang:</label>
+              <input class="region-input" type="text" list="regions" name="province" placeholder="Viloyatni tanlang"
+                required>
+              <datalist id="regions">
+                <option value="Toshkent">
+                <option value="Namangan">
+                <option value="Andijon">
+                <option value="Farg'ona">
+                <option value="Sirdaryo">
+                <option value="Navoiy">
+                <option value="Samarqand">
+                <option value="Jizzax">
+                <option value="Surhondaryo">
+                <option value="Qashqadaryo">
+                <option value="Buxoro">
+              </datalist>
+            </div>
+            <div class="label-input-box">
+              <label class="district-label" for="full_name">To'liq ism</label>
+              <input class="district-input" type="text" name="full_name" id="full_name" placeholder="To'liq ism"
+                required>
+            </div>
+            <div class="label-input-box">
+              <label class="district-label" for="district">Shahar/tuman:</label>
+              <input class="district-input" type="text" name="city" id="district" placeholder="Shahar/tuman"
+                required>
+            </div>
+            <div class="label-input-box">
+              <label class="adress-label" for="adress">Ko'cha nomi va uy raqami:</label>
+              <input class="adress-input" type="text" name="address" id="adress" placeholder="Ko'cha nomi va uy raqami" required>
+            </div>
+            <div class="label-input-box">
+              <label class="postage-label" for="postage">Pochta raqam:</label>
+              <input class="postage-input" type="text" name="zipcode" id="postage" placeholder="Pochta raqam (shart emas)">
+            </div>
+            <div class="label-input-box">
+              <label class="tel-label" for="tel">Telefon raqam:</label>
+              <input class="tel-input" type="text" name="phone" id="tel" placeholder="Telefon raqam" required>
+            </div>
+            <button type="submit">Yuborish</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+
+  {% block script %}
+  <script src="{% static 'js/script.js' %}"></script>
+  {% endblock %}
