@@ -32,17 +32,12 @@ def category_related_products(request, category_slug):
         min_price = request.GET.get('minPrice', 1)
         max_price = request.GET.get('maxPrice', 100000)
         price = [min_price, max_price]
-        if get_brands and get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related('category', 'brand', 'color').filter(category=category, brand__slug__in=get_brands, color__id__in=get_colors, cost__range=price, is_purchased=False)
-        elif get_brands:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(category=category, brand__slug__in=get_brands, cost__range=price, is_purchased=False)
-        elif get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(category=category, color__id__in=get_colors, cost__range=price, is_purchased=False)
-        elif price:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(category=category, cost__range=price, is_purchased=False)
+        if get_brands:
+            product_list = product_list.filter(brand__slug__in=get_brands)
+        if get_colors:
+            product_list = product_list.filter(color__id__in=get_colors)
+        if price:
+            product_list = product_list.filter(cost__range=price)
 
 
     paginator = Paginator(product_list, 4)
@@ -69,17 +64,12 @@ def shop_products(request):
         min_price = request.GET.get('minPrice', 1)
         max_price = request.GET.get('maxPrice', 100000)
         price = [min_price, max_price]
-        if get_brands and get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related('category', 'brand', 'color').filter(brand__slug__in=get_brands, color__id__in=get_colors, cost__range=price, is_purchased=False)
-        elif get_brands:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(brand__slug__in=get_brands, cost__range=price, is_purchased=False)
-        elif get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(color__id__in=get_colors, cost__range=price, is_purchased=False)
-        elif price:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(cost__range=price, is_purchased=False)
+        if get_brands:
+            product_list = product_list.filter(brand__slug__in=get_brands)
+        if get_colors:
+            product_list = product_list.filter(color__id__in=get_colors)
+        if price:
+            product_list = product_list.filter(cost__range=price)
 
     paginator = Paginator(product_list, 4)
     page_number = request.GET.get('page')
@@ -103,17 +93,12 @@ def shop_products_most_purchased(request):
         min_price = request.GET.get('minPrice', 1)
         max_price = request.GET.get('maxPrice', 100000)
         price = [min_price, max_price]
-        if get_brands and get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related('category', 'brand', 'color').filter(brand__slug__in=get_brands, color__id__in=get_colors, cost__range=price, most_purchased=True, is_purchased=False)
-        elif get_brands:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(brand__slug__in=get_brands, cost__range=price, most_purchased=True, is_purchased=False)
-        elif get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(color__id__in=get_colors, cost__range=price, most_purchased=True, is_purchased=False)
-        elif price:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(cost__range=price, most_purchased=True, is_purchased=False)
+        if get_brands:
+            product_list = product_list.filter(brand__slug__in=get_brands)
+        if get_colors:
+            product_list = product_list.filter(color__id__in=get_colors)
+        if price:
+            product_list = product_list.filter(cost__range=price)
 
     paginator = Paginator(product_list, 4)
     page_number = request.GET.get('page')
@@ -137,17 +122,12 @@ def shop_products_disconts(request):
         min_price = request.GET.get('minPrice', 1)
         max_price = request.GET.get('maxPrice', 100000)
         price = [min_price, max_price]
-        if get_brands and get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related('category', 'brand', 'color').filter(brand__slug__in=get_brands, color__id__in=get_colors, cost__range=price, is_discount=True, is_purchased=False)
-        elif get_brands:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(brand__slug__in=get_brands, cost__range=price, is_discount=True, is_purchased=False)
-        elif get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(color__id__in=get_colors, cost__range=price, is_discount=True, is_purchased=False)
-        elif price:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(cost__range=price, is_discount=True, is_purchased=False)
+        if get_brands:
+            product_list = product_list.filter(brand__slug__in=get_brands, is_discount=True)
+        if get_colors:
+            product_list = product_list.filter(color__id__in=get_colors, is_discount=True)
+        if price:
+            product_list = product_list.filter(cost__range=price, is_discount=True)
 
     paginator = Paginator(product_list, 4)
     page_number = request.GET.get('page')
@@ -165,7 +145,7 @@ def product_detail(request, product_slug):
     product = Product.objects.select_related('category', 'color', 'brand').prefetch_related(
         'product_images').get(slug=product_slug, is_purchased=False)
     related_products = Product.objects.select_related('category', 'color', 'brand').prefetch_related(
-        'product_images').filter(category=product.category, is_purchased=False)[1:5]
+        'product_images').filter(category=product.category, is_purchased=False).exclude(id=product.id)[:4]
     context = {
         'object': product,
         'products': related_products
@@ -197,21 +177,14 @@ def search(request):
         max_price = request.GET.get('maxPrice', 100000)
         q = request.GET.get('q', '')
         price = [min_price, max_price]
-        if get_brands and get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related('category', 'brand', 'color').filter(
-                brand__slug__in=get_brands, color__id__in=get_colors, cost__range=price, is_purchased=False, title__icontains=q)
-        elif get_brands:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(brand__slug__in=get_brands, cost__range=price, is_purchased=False, title__icontains=q)
-        elif get_colors:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(color__id__in=get_colors, cost__range=price, is_purchased=False, title__icontains=q)
-        elif price:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(cost__range=price, is_purchased=False, title__icontains=q)
-        else:
-            product_list = Product.objects.prefetch_related('product_images').select_related(
-                'category', 'brand', 'color').filter(Q(title__icontains=q) or Q(description__icontains=q))
+        if get_brands:
+            product_list = product_list.filter(brand__slug__in=get_brands)
+        if get_colors:
+            product_list = product_list.filter(color__id__in=get_colors)
+        if price:
+            product_list = product_list.filter(cost__range=price)
+        if q:
+            product_list = product_list.filter(Q(title__icontains=q) | Q(description__icontains=q))
 
 
     paginator = Paginator(product_list, 4)
